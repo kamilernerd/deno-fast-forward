@@ -4,7 +4,7 @@ import {
   dirname,
   ensureDir,
   exists,
-  fromFileUrl,
+  fromFileUrl
 } from "./dev_deps.ts";
 import { Encoding } from "./encoding.ts";
 import { EncodingProcess } from "./encoding_process.ts";
@@ -13,12 +13,12 @@ import {
   EncodingEndEvent,
   EncodingErrorEvent,
   EncodingInfoEvent,
-  EncodingStartEvent,
+  EncodingStartEvent
 } from "./events.ts";
 import { EncodingProgressEvent } from "./events.ts";
 import { FFmpeg } from "./ffmpeg.ts";
 
-const rootDir: string = dirname(fromFileUrl(import.meta.url));
+const rootDir: string = dirname(import.meta.url.replace("file://", ""));
 const inputPath = `${rootDir}/fixtures/sample.mp4`;
 
 Deno.test({
@@ -83,7 +83,7 @@ Deno.test({
     assertInstanceOf(errorOutput, Uint8Array);
 
     encodingProcess.close();
-  },
+  }
 });
 
 Deno.test({
@@ -139,5 +139,5 @@ Deno.test({
     assertInstanceOf(progressEvent, EncodingProgressEvent);
     assertInstanceOf(endEvent, EncodingEndEvent);
     assertEquals(progressEvent?.progress, 100);
-  },
+  }
 });
